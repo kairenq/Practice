@@ -1,0 +1,55 @@
+﻿@model IEnumerable<AdmissionSystem.Models.EducationProgram>
+@{
+    ViewData["Title"] = "Главная";
+}
+
+<div class="jumbotron bg-light p-5 rounded-3 mb-4">
+    <h1 class="display-4">Приемная комиссия БППК</h1>
+    <p class="lead">Добро пожаловать в информационную систему приемной комиссии Белгородского правоохранительного педагогического колледжа</p>
+    <hr class="my-4">
+    <p>Подайте заявку на обучение по одной из наших образовательных программ</p>
+    @if (!User.Identity!.IsAuthenticated)
+    {
+        <a class="btn btn-primary btn-lg" asp-controller="Account" asp-action="Register" role="button">Зарегистрироваться</a>
+        <a class="btn btn-outline-primary btn-lg" asp-controller="Account" asp-action="Login" role="button">Войти</a>
+    }
+    else if (User.IsInRole("Applicant"))
+    {
+        <a class="btn btn-success btn-lg" asp-controller="Applications" asp-action="Create" role="button">Подать заявку</a>
+    }
+</div>
+
+<h2 class="mb-4">Образовательные программы</h2>
+
+<div class="row">
+    @foreach (var program in Model)
+    {
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">@program.Name</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Код: @program.Code</h6>
+                    <p class="card-text">@program.Description</p>
+                    <ul class="list-unstyled">
+                        <li><strong>Уровень:</strong> @program.EducationLevel</li>
+                        <li><strong>Срок обучения:</strong> @program.DurationYears года</li>
+                        <li><strong>Мест:</strong> @program.PlacesCount</li>
+                    </ul>
+                </div>
+                @if (User.IsInRole("Applicant"))
+                {
+                    <div class="card-footer bg-transparent">
+                        <a asp-controller="Applications" asp-action="Create" class="btn btn-primary btn-sm">Подать заявку</a>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+</div>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info" role="alert">
+        В данный момент нет доступных образовательных программ
+    </div>
+}

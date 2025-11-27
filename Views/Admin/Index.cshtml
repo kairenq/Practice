@@ -1,0 +1,110 @@
+@model IEnumerable<AdmissionSystem.Models.AdmissionApplication>
+@{
+    ViewData["Title"] = "Панель управления";
+}
+
+<h2 class="mb-4">Панель управления приемной комиссии</h2>
+
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card text-white bg-primary mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Всего заявок</h5>
+                <p class="display-6">@Model.Count()</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-info mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Поданные</h5>
+                <p class="display-6">@Model.Count(a => a.Status == AdmissionSystem.Models.ApplicationStatus.Submitted)</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-success mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Принятые</h5>
+                <p class="display-6">@Model.Count(a => a.Status == AdmissionSystem.Models.ApplicationStatus.Accepted)</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-danger mb-3">
+            <div class="card-body">
+                <h5 class="card-title">Отклоненные</h5>
+                <p class="display-6">@Model.Count(a => a.Status == AdmissionSystem.Models.ApplicationStatus.Rejected)</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card shadow">
+    <div class="card-header bg-primary text-white">
+        <h4 class="mb-0">Последние заявки</h4>
+    </div>
+    <div class="card-body">
+        @if (Model.Any())
+        {
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>№</th>
+                            <th>Абитуриент</th>
+                            <th>Программа</th>
+                            <th>Статус</th>
+                            <th>Дата подачи</th>
+                            <th>Действия</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var application in Model.Take(10))
+                        {
+                            <tr>
+                                <td>@application.Id</td>
+                                <td>@application.User.LastName @application.User.FirstName</td>
+                                <td>@application.Program.Name</td>
+                                <td>
+                                    @switch (application.Status)
+                                    {
+                                        case AdmissionSystem.Models.ApplicationStatus.Draft:
+                                            <span class="badge bg-secondary">Черновик</span>
+                                            break;
+                                        case AdmissionSystem.Models.ApplicationStatus.Submitted:
+                                            <span class="badge bg-primary">Подана</span>
+                                            break;
+                                        case AdmissionSystem.Models.ApplicationStatus.UnderReview:
+                                            <span class="badge bg-info">На рассмотрении</span>
+                                            break;
+                                        case AdmissionSystem.Models.ApplicationStatus.Accepted:
+                                            <span class="badge bg-success">Принята</span>
+                                            break;
+                                        case AdmissionSystem.Models.ApplicationStatus.Rejected:
+                                            <span class="badge bg-danger">Отклонена</span>
+                                            break;
+                                        case AdmissionSystem.Models.ApplicationStatus.Withdrawn:
+                                            <span class="badge bg-warning">Отозвана</span>
+                                            break;
+                                    }
+                                </td>
+                                <td>@application.CreatedAt.ToLocalTime().ToString("dd.MM.yyyy")</td>
+                                <td>
+                                    <a asp-action="ReviewApplication" asp-route-id="@application.Id" class="btn btn-sm btn-primary">Рассмотреть</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="text-center mt-3">
+                <a asp-action="Applications" class="btn btn-outline-primary">Показать все заявки</a>
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-info">Нет заявок для отображения</div>
+        }
+    </div>
+</div>
