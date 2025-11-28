@@ -1,0 +1,57 @@
+<Window x:Class="AdmissionSystem.Windows.CreateApplicationWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Title="Подать заявку" Height="500" Width="600"
+        WindowStartupLocation="CenterScreen"
+        Background="{DynamicResource MaterialDesignPaper}">
+    <Grid Margin="20">
+        <materialDesign:Card Padding="32">
+            <StackPanel>
+                <TextBlock Text="Подать заявку на обучение" Style="{StaticResource MaterialDesignHeadline5TextBlock}"
+                           Margin="0,0,0,24"/>
+
+                <ComboBox x:Name="ProgramComboBox"
+                          materialDesign:HintAssist.Hint="Выберите программу *"
+                          Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                          DisplayMemberPath="Name"
+                          Margin="0,0,0,16"/>
+
+                <TextBox x:Name="EducationInfoTextBox"
+                         materialDesign:HintAssist.Hint="Информация об образовании"
+                         Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                         TextWrapping="Wrap"
+                         AcceptsReturn="True"
+                         MinLines="2"
+                         MaxLines="4"
+                         Margin="0,0,0,16"/>
+
+                <TextBox x:Name="ExamScoreTextBox"
+                         materialDesign:HintAssist.Hint="Средний балл аттестата (0-5)"
+                         Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                         Margin="0,0,0,16"/>
+
+                <TextBox x:Name="CommentsTextBox"
+                         materialDesign:HintAssist.Hint="Дополнительная информация"
+                         Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                         TextWrapping="Wrap"
+                         AcceptsReturn="True"
+                         MinLines="3"
+                         MaxLines="6"
+                         Margin="0,0,0,24"/>
+
+                <Button x:Name="SubmitButton"
+                        Content="СОЗДАТЬ ЗАЯВКУ"
+                        Click="SubmitButton_Click"
+                        Style="{StaticResource MaterialDesignRaisedButton}"
+                        Height="40"/>
+
+                <TextBlock x:Name="ErrorTextBlock"
+                           Foreground="Red"
+                           TextWrapping="Wrap"
+                           Margin="0,16,0,0"
+                           Visibility="Collapsed"/>
+            </StackPanel>
+        </materialDesign:Card>
+    </Grid>
+</Window>

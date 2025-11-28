@@ -1,0 +1,56 @@
+<Window x:Class="AdmissionSystem.Windows.StatisticsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Title="Статистика" Height="400" Width="600"
+        WindowStartupLocation="CenterScreen"
+        Background="{DynamicResource MaterialDesignPaper}">
+    <Grid Margin="20">
+        <StackPanel>
+            <TextBlock Text="Статистика приемной комиссии" Style="{StaticResource MaterialDesignHeadline4TextBlock}"
+                       Margin="0,0,0,24"/>
+
+            <UniformGrid Columns="2" Rows="3">
+                <materialDesign:Card Margin="0,0,10,10" Padding="16">
+                    <StackPanel>
+                        <TextBlock Text="Всего заявок" Style="{StaticResource MaterialDesignHeadline6TextBlock}"/>
+                        <TextBlock x:Name="TotalTextBlock" Style="{StaticResource MaterialDesignHeadline3TextBlock}"
+                                   Foreground="{DynamicResource PrimaryHueMidBrush}"/>
+                    </StackPanel>
+                </materialDesign:Card>
+
+                <materialDesign:Card Margin="10,0,0,10" Padding="16">
+                    <StackPanel>
+                        <TextBlock Text="Подано" Style="{StaticResource MaterialDesignHeadline6TextBlock}"/>
+                        <TextBlock x:Name="SubmittedTextBlock" Style="{StaticResource MaterialDesignHeadline3TextBlock}"
+                                   Foreground="#2196F3"/>
+                    </StackPanel>
+                </materialDesign:Card>
+
+                <materialDesign:Card Margin="0,0,10,10" Padding="16">
+                    <StackPanel>
+                        <TextBlock Text="На рассмотрении" Style="{StaticResource MaterialDesignHeadline6TextBlock}"/>
+                        <TextBlock x:Name="UnderReviewTextBlock" Style="{StaticResource MaterialDesignHeadline3TextBlock}"
+                                   Foreground="#FF9800"/>
+                    </StackPanel>
+                </materialDesign:Card>
+
+                <materialDesign:Card Margin="10,0,0,10" Padding="16">
+                    <StackPanel>
+                        <TextBlock Text="Принято" Style="{StaticResource MaterialDesignHeadline6TextBlock}"/>
+                        <TextBlock x:Name="AcceptedTextBlock" Style="{StaticResource MaterialDesignHeadline3TextBlock}"
+                                   Foreground="#4CAF50"/>
+                    </StackPanel>
+                </materialDesign:Card>
+
+                <materialDesign:Card Margin="0,0,10,0" Padding="16">
+                    <StackPanel>
+                        <TextBlock Text="Отклонено" Style="{StaticResource MaterialDesignHeadline6TextBlock}"/>
+                        <TextBlock x:Name="RejectedTextBlock" Style="{StaticResource MaterialDesignHeadline3TextBlock}"
+                                   Foreground="#F44336"/>
+                    </StackPanel>
+                </materialDesign:Card>
+            </UniformGrid>
+        </StackPanel>
+    </Grid>
+</Window>

@@ -1,0 +1,68 @@
+<Window x:Class="AdmissionSystem.Windows.LoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Title="Вход - Приемная комиссия БППК" Height="500" Width="450"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        Background="{DynamicResource MaterialDesignPaper}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <materialDesign:ColorZone Mode="PrimaryMid" Padding="16" Grid.Row="0">
+            <StackPanel Orientation="Vertical">
+                <TextBlock Text="🎓" FontSize="48" HorizontalAlignment="Center" Margin="0,10"/>
+                <TextBlock Text="Приемная комиссия БППК" Style="{StaticResource MaterialDesignHeadline5TextBlock}"
+                           HorizontalAlignment="Center" Foreground="White"/>
+                <TextBlock Text="Информационная система" Style="{StaticResource MaterialDesignBody2TextBlock}"
+                           HorizontalAlignment="Center" Foreground="White" Opacity="0.8"/>
+            </StackPanel>
+        </materialDesign:ColorZone>
+
+        <!-- Content -->
+        <materialDesign:Card Grid.Row="1" Margin="20" Padding="32">
+            <StackPanel>
+                <TextBlock Text="Вход в систему" Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                           Margin="0,0,0,24" HorizontalAlignment="Center"/>
+
+                <TextBox x:Name="EmailTextBox"
+                         materialDesign:HintAssist.Hint="Email"
+                         Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                         Margin="0,0,0,16"
+                         FontSize="14"/>
+
+                <PasswordBox x:Name="PasswordBox"
+                             materialDesign:HintAssist.Hint="Пароль"
+                             Style="{StaticResource MaterialDesignOutlinedPasswordBox}"
+                             Margin="0,0,0,24"
+                             FontSize="14"/>
+
+                <Button x:Name="LoginButton"
+                        Content="ВОЙТИ"
+                        Click="LoginButton_Click"
+                        Style="{StaticResource MaterialDesignRaisedButton}"
+                        Height="40"
+                        Margin="0,0,0,16"/>
+
+                <Separator Margin="0,8"/>
+
+                <TextBlock HorizontalAlignment="Center" Margin="0,16,0,0">
+                    <Run Text="Нет аккаунта?"/>
+                    <Hyperlink Click="RegisterLink_Click" Foreground="{DynamicResource PrimaryHueMidBrush}">
+                        Зарегистрироваться
+                    </Hyperlink>
+                </TextBlock>
+
+                <TextBlock x:Name="ErrorTextBlock"
+                           Foreground="Red"
+                           TextWrapping="Wrap"
+                           Margin="0,16,0,0"
+                           Visibility="Collapsed"/>
+            </StackPanel>
+        </materialDesign:Card>
+    </Grid>
+</Window>

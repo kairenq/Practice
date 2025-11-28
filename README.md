@@ -1,14 +1,16 @@
 # Информационная система "Приемная комиссия БППК"
 
-Информационная система для управления процессом приема абитуриентов в Белгородский правоохранительный педагогический колледж.
+**Desktop приложение** для управления процессом приема абитуриентов в Белгородский правоохранительный педагогический колледж.
 
 ## Технологии
 
-- **Backend**: ASP.NET Core 8.0 MVC
+- **Платформа**: WPF (Windows Presentation Foundation)
+- **Версия .NET**: .NET 8.0
+- **UI Framework**: Material Design In XAML
 - **ORM**: Entity Framework Core 8.0
 - **База данных**: PostgreSQL 16
 - **Аутентификация**: ASP.NET Core Identity
-- **Frontend**: Razor Views, Bootstrap 5
+- **Паттерн**: MVVM (Model-View-ViewModel)
 - **Контейнеризация**: Docker & Docker Compose
 
 ## Функциональность
@@ -55,50 +57,60 @@
 
 ### Предварительные требования
 
-- .NET SDK 8.0 или выше
-- Docker и Docker Compose (для PostgreSQL)
-- Git
+- **Windows 10/11** (64-bit)
+- **.NET SDK 8.0** или выше - [Скачать](https://dotnet.microsoft.com/download/dotnet/8.0)
+- **Docker Desktop** (для PostgreSQL) - [Скачать](https://www.docker.com/products/docker-desktop)
+- Git (опционально)
 
-### Шаги установки
+### Быстрый запуск
 
-1. **Клонируйте репозиторий**
-```bash
-git clone <repository-url>
-cd Practice
-```
+#### Вариант 1: Использование батника ЗАПУСК.bat (Рекомендуется)
 
-2. **Запустите PostgreSQL через Docker**
-```bash
-docker-compose up -d
-```
+1. Дважды кликните на файл **`ЗАПУСК.bat`**
+2. Выберите **"5. Полный запуск"**
+3. Приложение автоматически запустит БД, соберет и запустит программу
 
-3. **Примените миграции базы данных**
-```bash
-dotnet ef database update
-```
+#### Вариант 2: Пошаговый запуск
 
-4. **Запустите приложение**
-```bash
-dotnet run
-```
+1. **Запустите базу данных**
+   - Дважды кликните `start-db.bat`
+   - Или выполните: `docker-compose up -d`
 
-5. **Откройте браузер**
-```
-https://localhost:5001
-или
-http://localhost:5000
-```
+2. **Соберите приложение**
+   - Дважды кликните `build.bat`
+   - Или выполните: `dotnet build`
+
+3. **Запустите приложение**
+   - Дважды кликните `run.bat`
+   - Или выполните: `dotnet run`
+
+### Создание EXE файла
+
+Для создания standalone EXE файла без необходимости установки .NET:
+
+1. Дважды кликните `publish.bat`
+2. Готовый EXE будет в папке `publish\AdmissionSystem.exe`
+
+**Примечание:** EXE файл работает без .NET SDK, но требует PostgreSQL!
 
 ## Структура проекта
 
 ```
 AdmissionSystem/
-├── Controllers/          # MVC контроллеры
-│   ├── AccountController.cs
-│   ├── ApplicationsController.cs
-│   ├── AdminController.cs
-│   └── HomeController.cs
-├── Data/                # Контекст БД и seed данные
+├── Windows/             # WPF окна приложения
+│   ├── LoginWindow.xaml/cs
+│   ├── RegisterWindow.xaml/cs
+│   ├── MainWindow.xaml/cs
+│   ├── MyApplicationsWindow.xaml/cs
+│   ├── CreateApplicationWindow.xaml/cs
+│   ├── AllApplicationsWindow.xaml/cs
+│   ├── ReviewApplicationWindow.xaml/cs
+│   ├── ProgramsWindow.xaml/cs
+│   └── StatisticsWindow.xaml/cs
+├── Services/            # Бизнес-логика
+│   ├── AuthenticationService.cs
+│   └── ApplicationService.cs
+├── Data/                # Контекст БД и начальные данные
 │   ├── ApplicationDbContext.cs
 │   └── SeedData.cs
 ├── Models/              # Модели данных
@@ -106,20 +118,18 @@ AdmissionSystem/
 │   ├── AdmissionApplication.cs
 │   ├── EducationProgram.cs
 │   └── ApplicationStatus.cs
-├── ViewModels/          # View Models для форм
-│   ├── LoginViewModel.cs
-│   ├── RegisterViewModel.cs
-│   └── CreateApplicationViewModel.cs
-├── Views/               # Razor представления
-│   ├── Home/
-│   ├── Account/
-│   ├── Applications/
-│   ├── Admin/
-│   └── Shared/
-├── wwwroot/            # Статические файлы
-├── appsettings.json    # Конфигурация
-├── Program.cs          # Точка входа
-└── docker-compose.yml  # Docker конфигурация
+├── Helpers/             # Вспомогательные классы
+│   ├── RelayCommand.cs
+│   └── ViewModelBase.cs
+├── Migrations/          # Миграции БД
+├── App.xaml/cs          # Точка входа приложения
+├── appsettings.json     # Конфигурация
+├── ЗАПУСК.bat          # Главное меню запуска
+├── build.bat            # Сборка проекта
+├── run.bat              # Запуск приложения
+├── publish.bat          # Создание EXE
+├── start-db.bat         # Запуск PostgreSQL
+└── docker-compose.yml   # Docker конфигурация
 ```
 
 ## Конфигурация базы данных
@@ -136,22 +146,15 @@ AdmissionSystem/
 
 Вы можете изменить её под свои настройки PostgreSQL.
 
-## Миграции базы данных
+## Файлы запуска
 
-### Создание новой миграции
-```bash
-dotnet ef migrations add <MigrationName>
-```
-
-### Применение миграций
-```bash
-dotnet ef database update
-```
-
-### Откат миграции
-```bash
-dotnet ef database update <PreviousMigrationName>
-```
+| Файл | Описание |
+|------|----------|
+| **ЗАПУСК.bat** | Главное меню для выбора действия |
+| **start-db.bat** | Запуск PostgreSQL через Docker |
+| **build.bat** | Сборка проекта |
+| **run.bat** | Запуск приложения |
+| **publish.bat** | Создание standalone EXE файла |
 
 ## Образовательные программы
 
@@ -178,19 +181,31 @@ dotnet ef database update <PreviousMigrationName>
 - **Rejected** (Отклонена) - заявка отклонена
 - **Withdrawn** (Отозвана) - заявка отозвана абитуриентом
 
-## Разработка
+## Использование приложения
+
+### Первый запуск
+
+1. При первом запуске база данных будет автоматически создана и заполнена тестовыми данными
+2. Войдите как администратор или сотрудник (см. раздел "Предустановленные пользователи")
+3. Или зарегистрируйте нового абитуриента
+
+### Основные окна
+
+- **LoginWindow** - Вход в систему
+- **RegisterWindow** - Регистрация абитуриента
+- **MainWindow** - Главное меню (после входа)
+- **MyApplicationsWindow** - Мои заявки (для абитуриентов)
+- **CreateApplicationWindow** - Подача заявки
+- **AllApplicationsWindow** - Все заявки (для сотрудников/админов)
+- **ReviewApplicationWindow** - Рассмотрение заявки
+- **ProgramsWindow** - Просмотр программ
+- **StatisticsWindow** - Статистика (для администраторов)
 
 ### Требования к паролям
 
 - Минимум 6 символов
 - Должен содержать минимум одну цифру
 - Должен содержать минимум одну строчную букву
-
-### Настройка HTTPS сертификата
-
-```bash
-dotnet dev-certs https --trust
-```
 
 ## Остановка и очистка
 
